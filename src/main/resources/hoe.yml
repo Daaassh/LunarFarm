@@ -1,0 +1,19 @@
+# Placeholders configuradas:
+# @blocks_Break apenas e aceito quando o jogador quebra algum bloco.
+# @sementes mostra quantas sementes o jogador tem.
+name: "&cHoe | @blocks_break"
+lore:
+  - " "
+  - "&7Shift + direito pra abrir o menu de encantamentos"
+  - " "
+
+# Permissões
+#
+# - lunarfarm.break_farms
+# Permissão para quebrar os blocos de farm
+
+# - lunarfarm.farm_open
+# Permissão para executar o /farm
+
+# - lunarfarm.farmadm
+# Permissão para executar o /farmadm

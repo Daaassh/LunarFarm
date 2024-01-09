@@ -1,3 +1,16 @@
 name: LunarFarm
 version: '${project.version}'
 main: org.me.lunarfarm.Main
+commands:
+  farmadm:
+    aliases:
+      - farmutils
+      - farmadms
+    usage: '/farmadm <reload/set>'
+    description: 'Comando para gerenciar o plugin'
+  farm:
+    aliases:
+      - farms
+      - farmar
+    usage: '/farm'
+    description: 'Comando para abrir o menu de farm'

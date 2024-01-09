@@ -1,0 +1,34 @@
+break_farms:
+  # Você pode deixar os dois ativos mas não recomendo muito. A implementação do holograma sera implementado na v2
+  hologram-use: true
+  title-api: true
+  # Tempo em segundos para a plantação ser plantada novamente.
+  time-on-seconds-for-place-wheat: 2
+# O custo sera multiplicado pelo level
+fortune:
+  initial-cost: 100
+  max-level: 50
+  # Ira acrecentar 1.0% a cada nivel
+  increase-for-level: 1.0
+bonus:
+  max-level: 10
+  initial-cost: 250
+  # Ira acrescentar a chance de 1.0 a cada level.
+  increase-for-level: 1.0
+multiplicador:
+  max-level: 25
+  initial-cost: 500
+  # Ira acrescentar a chance de 1.0 a cada level.
+  increase-for-level: 1.0
+
+
+mysql:
+  # Importantes
+  # Caso não saiba apenas coloque o url
+  user: u1661_4tA7ICPQ7Q
+  password: r8.3MaZ=g0U2Ldbe38e5fPUI
+  port: 3306
+  database: s1661_Teste
+  host: nac-01.haskhosting.com.br
+
+  url: jjdbc:mysql://u1661_4tA7ICPQ7Q:r8.3MaZ%3Dg0U2Ldbe38e5fPUI@nac-01.haskhosting.com.br:3306/s1661_Teste

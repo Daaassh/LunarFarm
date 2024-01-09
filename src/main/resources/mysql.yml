@@ -1,0 +1,7 @@
+mysql:
+  user: root
+  password: root
+  host: localhost
+  port: 3306
+  database: lunarfarm
+  url: jdbc:mysql://localhost:3306/lunarfarm

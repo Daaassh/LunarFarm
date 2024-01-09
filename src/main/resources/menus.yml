@@ -1,0 +1,103 @@
+# Menu principal do /farm
+# A permissão padrão para abrir o /farm é lunarfarm.farm_open
+# Spbre o menu de recompensas para configurar ele utiliza o recompensas.yml
+farm:
+  # Nome e tamanho do inventario
+  name: "§aFarm"
+  # Coloca os slots assim, Exemplo um inventario de 5 rows, 9 * 5
+  slots: 28
+  # Itens do inventario
+  # Lembrando não troque os nomes das seções abaixo, Como a hoe e recompensas
+  itens:
+    # Exemplos:
+    hoe:
+      # Nome do item
+      name: "§aArea De Farms"
+      lore:
+        - " "
+        - "§7Clique para abrir o menu de encantamentos"
+        - " "
+      # Id do item
+      id: 1
+      # Slot em que o item vai ficar
+      inventory-slot: 11
+      # Caso tenha um valor true, o player ira precisar da permissão para abrir o menu
+      require-permission: true
+      permission: farmmenu_areas
+    recompensas:
+      # Nome do item
+      name: "§aRecompensas"
+      lore:
+        - " "
+        - "§7Clique para abrir o menu de recompensas"
+        - " "
+      # Id do item
+      id: 15
+      # Slot em que o item vai ficar
+      inventory-slot: 13
+      # Caso tenha um valor true, o player ira precisar da permissão para abrir o menu
+      require-permission: true
+      permission: farmmenu_recompensas
+  enchants:
+    # Nome do item
+    name: "§aEncantamentos"
+    lore:
+      - " "
+      - "§7Clique para abrir o menu de encantamentos"
+      - " "
+    # Id do item
+    id: 18
+    # Slot em que o item vai ficar
+    inventory-slot: 15
+    # Caso tenha um valor true, o player ira precisar da permissão para abrir o menu
+    require-permission: true
+    permission: farmmenu_seed
+
+enchants:
+  # Nome e tamanho do inventario
+  name: "§aEncantamentos | @player"
+  # Coloca os slots assim, Exemplo um inventario de 5 rows, 9 * 5
+  slots: 28
+  # Lembrando não troque os nomes das seções abaixo
+  itens:
+    # Exemplos:
+    fortuna:
+      # Nome do item
+      name: "&aFortuna | @nivel"
+      lore:
+        - " "
+        - "§7Clique com o botão direito para evoluir 1 nivel"
+        - "§7Clique com o botão direito para evoluir 10 nivel"
+        - "&7Clique com o scroll para evoluir ate o nivel maximo. "
+        - " "
+      # Id do item
+      id: 1
+      # Slot em que o item vai ficar
+      inventory-slot: 11
+    multiplicador:
+      # Nome do item
+      name: "&aMultiplicador | @nivel"
+      lore:
+        - " "
+        - "§7Clique com o botão direito para evoluir 1 nivel"
+        - "§7Clique com o botão direito para evoluir 10 nivel"
+        - "&7Clique com o scroll para evoluir ate o nivel maximo. "
+        - " "
+      # Id do item
+      id: 15
+      # Slot em que o item vai ficar
+      inventory-slot: 13
+    bonus:
+      # Nome do item
+      name: "&aBonus | @nivel/@max_level"
+      lore:
+        - " "
+        - "§7Clique com o botão direito para evoluir 1 nivel"
+        - "§7Clique com o botão direito para evoluir 10 nivel"
+        - "&7Clique com o scroll para evoluir ate o nivel maximo. "
+        - " "
+      # Id do item
+      id: 17
+      # Slot em que o item vai ficar
+      inventory-slot: 15
+

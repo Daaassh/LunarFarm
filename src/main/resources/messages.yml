@@ -1,0 +1,11 @@
+# @sementes mostra quantas sementes o jogador tem.
+
+no-permission: "§cVocê não tem a permissão necessaria"
+no-created-itens-inventory: "§cNão foi criado nenhum item para o inventario!"
+no-hoe: "§cVocê não esta com a ferramenta necessaria"
+no-section-configurate: "§cNão foi configurado nenhuma seção"
+msg-on-reload-config: "&aConfigurado recaregada sucesso!"
+args-error: "§cArgumentos invalidos"
+no-seeds: "&cVocê não tem a quantia de sementes necessarias"
+# Apenas funciona aqui. o @sementes
+message-on-break-block: "&aVocê quebrou uma plantação e agora esta com uma quantia de &b@sementes sementes. &aParabens!"
