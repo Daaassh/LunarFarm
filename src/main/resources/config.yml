@@ -1,6 +1,5 @@
 break_farms:
-  # Você pode deixar os dois ativos mas não recomendo muito. A implementação do holograma sera implementado na v2
-  hologram-use: true
+  # Recomendo deixar ativado, Na v2 ira vir os hologramas
   title-api: true
   # Tempo em segundos para a plantação ser plantada novamente.
   time-on-seconds-for-place-wheat: 2

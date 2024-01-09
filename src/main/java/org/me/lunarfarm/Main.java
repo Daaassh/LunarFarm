@@ -9,6 +9,7 @@ import org.me.lunarfarm.commands.FarmCommand;
 import org.me.lunarfarm.configs.CustomFileConfiguration;
 import org.me.lunarfarm.database.MySqlConnector;
 import org.me.lunarfarm.events.onBreak;
+import org.me.lunarfarm.events.onInteract;
 import org.me.lunarfarm.events.onInventoryClick;
 import org.me.lunarfarm.events.onJoin;
 import java.io.IOException;
@@ -17,36 +18,29 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
         try {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + "\n" +
+                    "    __                               ____  __            _           \n" +
+                    "   / /   __  ______  ____ ______    / __ \\/ /_  ______ _(_)___  _____\n" +
+                    "  / /   / / / / __ \\/ __ `/ ___/   / /_/ / / / / / __ `/ / __ \\/ ___/\n" +
+                    " / /___/ /_/ / / / / /_/ / /      / ____/ / /_/ / /_/ / / / / (__  ) \n" +
+                    "/_____/\\__,_/_/ /_/\\__,_/_/      /_/   /_/\\__,_/\\__, /_/_/ /_/____/  \n" +
+                    "                                               /____/                \n");
+
             saveDefaultConfig();
             loadConfigs();
-        } catch (IOException | InvalidConfigurationException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            MySqlConnector.connect();
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.GREEN + "MySql conectado!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            registerEvents();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InvalidConfigurationException e) {
-            throw new RuntimeException(e);
-        }
-        Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.GREEN + "Plugin carregado");
-        try {
             getCommand("farm").setExecutor(new FarmCommand());
             getCommand("farmadm").setExecutor(new AdministratorCommands());
             Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.GREEN + "Comando /farm criado");
-        } catch (Exception e) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.RED + "Erro ao criar o comando /farm");
-            throw new RuntimeException(e);
+            MySqlConnector.connect();
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.GREEN + "MySql conectado!");
+            registerEvents();
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
         }
+        Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.GREEN + "Plugin carregado");
     }
-
 
     private void loadConfigs() throws IOException, InvalidConfigurationException {
         CustomFileConfiguration hoe = new CustomFileConfiguration("hoe.yml", Main.getPlugin(Main.class));
@@ -60,6 +54,7 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onBreak(), this);
         getServer().getPluginManager().registerEvents(new onJoin(), this);
         getServer().getPluginManager().registerEvents(new onInventoryClick(), this);
+        getServer().getPluginManager().registerEvents(new onInteract(), this);
         Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.GREEN + "Events registrados");
     }
 }

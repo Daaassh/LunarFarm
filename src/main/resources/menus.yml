@@ -5,12 +5,12 @@ farm:
   # Nome e tamanho do inventario
   name: "§aFarm"
   # Coloca os slots assim, Exemplo um inventario de 5 rows, 9 * 5
-  slots: 28
+  slots: 27
   # Itens do inventario
   # Lembrando não troque os nomes das seções abaixo, Como a hoe e recompensas
   itens:
     # Exemplos:
-    hoe:
+    areas:
       # Nome do item
       name: "§aArea De Farms"
       lore:
@@ -38,26 +38,13 @@ farm:
       # Caso tenha um valor true, o player ira precisar da permissão para abrir o menu
       require-permission: true
       permission: farmmenu_recompensas
-  enchants:
-    # Nome do item
-    name: "§aEncantamentos"
-    lore:
-      - " "
-      - "§7Clique para abrir o menu de encantamentos"
-      - " "
-    # Id do item
-    id: 18
-    # Slot em que o item vai ficar
-    inventory-slot: 15
-    # Caso tenha um valor true, o player ira precisar da permissão para abrir o menu
-    require-permission: true
-    permission: farmmenu_seed
 
-enchants:
+
+encantamentos:
   # Nome e tamanho do inventario
   name: "§aEncantamentos | @player"
   # Coloca os slots assim, Exemplo um inventario de 5 rows, 9 * 5
-  slots: 28
+  slots: 27
   # Lembrando não troque os nomes das seções abaixo
   itens:
     # Exemplos:

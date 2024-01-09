@@ -51,11 +51,6 @@ public class onBreak implements Listener {
                     else {
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("message-on-break-block").replace("@sementes", String.valueOf(manager.getSeeds()))));
                     }
-                    try {
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("message-on-break-block").replace("@sementes", String.valueOf(manager.getSeeds()))));
-                    } catch (Exception ex) {
-                        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("no-section-configurate")));
-                    }
                     p.getItemInHand().getItemMeta().setDisplayName(ChatColor.translateAlternateColorCodes('&', hoe.getString("name").replace("@blocks_break", String.valueOf(manager.getBlocks_break()))));
                     MySqlUtils.updatePlayer(manager, p);
                     if (new PorcentageManager(rewards.getDouble("rewards.chance-initial")).setup()) {

@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.me.lunarfarm.Main;
+import org.me.lunarfarm.cache.PlayersInFarm;
 import org.me.lunarfarm.configs.CustomFileConfiguration;
 import org.me.lunarfarm.database.MySqlUtils;
 import org.me.lunarfarm.hoe.CreateHoe;
@@ -41,9 +42,8 @@ public class onInventoryClick implements Listener {
                 if (section != null) {
                     for (String itemName : section.getKeys(false)) {
                         try {
-                            verifyItens(clickedItem, p, section, itemName, "farm");
+                            verifyItens(clickedItem, p, section, itemName, "areas");
                             verifyItens(clickedItem, p, section, itemName, "recompensas");
-                            verifyItens(clickedItem, p, section, itemName, "enchants");
                         }catch (Exception ex) {
                             Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm] verifique ce você trocou o nome das seções em menus.yml");
                         }
@@ -57,14 +57,16 @@ public class onInventoryClick implements Listener {
             }
 
         else if (e.getClickedInventory().getName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&',rewards.getString("rewards.inventory.name")))) {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[ Lunar Farm ] " + ChatColor.GREEN + "Aqui vai o inventário dos itens de recompensas");
             e.setCancelled(true);
         }
         else if (e.getClickedInventory().getName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&',menus.getString("enchants.name")))) {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[ Lunar Farm ] " + ChatColor.GREEN + "Aqui vai o inventário dos itens do encantamento");
             e.setCancelled(true);
-            ItemStack clickedItem = e.getCurrentItem().getType() != Material.AIR ? e.getCurrentItem() : null;
+            ItemStack clickedItem = e.getCurrentItem();
             Player p = (Player) e.getWhoClicked();
             if (clickedItem != null) {
-                ConfigurationSection section = menus.getConfigurationSection("enchants.itens");
+                ConfigurationSection section = menus.getConfigurationSection("encantamentos.itens");
                 if (section != null) {
                     for (String itemName : section.getKeys(false)) {
                         Methods.verifyItens(clickedItem, p, section, itemName, "fortuna");
@@ -86,13 +88,10 @@ public class onInventoryClick implements Listener {
             if (clickedItem.getType() == Material.getMaterial(section.getInt(itemName + ".id"))) {
                 if (section.getBoolean(itemName + ".require-permission")) {
                     if (p.hasPermission(section.getString(itemName + ".permission"))) {
-                        if (util.equalsIgnoreCase("enchants")) {
-                            new EnchantsInventory(p);
-                        }
-                        else if(util.equalsIgnoreCase("recompensas")) {
+                        if(util.equalsIgnoreCase("recompensas")) {
                             new RewardsInventory(p);
                         }
-                        else if(util.equalsIgnoreCase("farm")) {
+                        else if(util.equalsIgnoreCase("areas")) {
                             new CreateHoe(MySqlUtils.getPlayer(p));
                             p.sendMessage(ChatColor.RED + "Você pegou a hoe");
                             p.closeInventory();
@@ -103,10 +102,7 @@ public class onInventoryClick implements Listener {
                     }
                 }
                 else {
-                    if (util.equalsIgnoreCase("enchants")) {
-                        new EnchantsInventory(p);
-                    }
-                    else if(util.equalsIgnoreCase("recompensas")) {
+                    if(util.equalsIgnoreCase("recompensas")) {
                         new RewardsInventory(p);
                     }
                     else if(util.equalsIgnoreCase("farm")) {
