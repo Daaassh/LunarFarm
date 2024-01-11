@@ -8,14 +8,13 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.me.lunarfarm.Main;
-import org.me.lunarfarm.cache.PlayersInFarm;
 import org.me.lunarfarm.configs.CustomFileConfiguration;
 import org.me.lunarfarm.database.MySqlUtils;
 import org.me.lunarfarm.hoe.CreateHoe;
-import org.me.lunarfarm.inventory.EnchantsInventory;
 import org.me.lunarfarm.inventory.RewardsInventory;
 import org.me.lunarfarm.managers.PlayerManager;
 import org.me.lunarfarm.methods.Methods;
@@ -24,15 +23,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 public class onInventoryClick implements Listener {
-    private CustomFileConfiguration menus = new CustomFileConfiguration("menus.yml", Main.getPlugin(Main.class));
-    private CustomFileConfiguration rewards = new CustomFileConfiguration("recompensas.yml", Main.getPlugin(Main.class));
-    private CustomFileConfiguration messages = new CustomFileConfiguration("messages.yml", Main.getPlugin(Main.class));
-
-    public onInventoryClick() throws IOException, InvalidConfigurationException {
-    }
 
     @EventHandler
     public void onClick(InventoryClickEvent e) throws IOException, InvalidConfigurationException, SQLException {
+        CustomFileConfiguration menus = new CustomFileConfiguration("menus.yml", Main.getPlugin(Main.class));
+        CustomFileConfiguration rewards = new CustomFileConfiguration("recompensas.yml", Main.getPlugin(Main.class));
+        CustomFileConfiguration messages = new CustomFileConfiguration("messages.yml", Main.getPlugin(Main.class));
         if (e.getClickedInventory().getName().equalsIgnoreCase(menus.getString("farm.name"))) {
             e.setCancelled(true);
             Player p = (Player) e.getWhoClicked();
@@ -44,68 +40,96 @@ public class onInventoryClick implements Listener {
                         try {
                             verifyItens(clickedItem, p, section, itemName, "areas");
                             verifyItens(clickedItem, p, section, itemName, "recompensas");
-                        }catch (Exception ex) {
+                        } catch (Exception ex) {
                             Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm] verifique ce você trocou o nome das seções em menus.yml");
                         }
                     }
-                  }
                 }
-                else {
+            }
+        } else if (e.getClickedInventory().getName().equalsIgnoreCase(rewards.getString("rewards.inventory.name"))) {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[ Lunar Farm ] " + ChatColor.GREEN + "Aqui vai o inventário dos itens de recompensas");
+            e.setCancelled(true);
+        } else if (e.getClickedInventory().getName().equalsIgnoreCase(menus.getString("enchants.name"))) {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[ Lunar Farm ] " + ChatColor.GREEN + "Aqui vai o inventário dos itens do encantamento");
+            e.setCancelled(true);
+            ItemStack clickedItem = e.getCurrentItem().getType() != Material.AIR ? e.getCurrentItem() : null;
+            Player p = (Player) e.getWhoClicked();
+            if (clickedItem != null) {
+                ConfigurationSection section = menus.getConfigurationSection("enchants.itens");
+                if (section != null) {
+                    for (String itemName : section.getKeys(false)) {
+                        if (clickedItem.getType() == Material.getMaterial(section.getInt(itemName + ".id"))) {
+                            verifyEnchantsItens(itemName, e.getAction(), p);
+                        }
+                    }
+                } else {
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("no-created-itens-inventory")));
                     p.closeInventory();
                 }
             }
-
-        else if (e.getClickedInventory().getName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&',rewards.getString("rewards.inventory.name")))) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[ Lunar Farm ] " + ChatColor.GREEN + "Aqui vai o inventário dos itens de recompensas");
-            e.setCancelled(true);
         }
-        else if (e.getClickedInventory().getName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&',menus.getString("enchants.name")))) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[ Lunar Farm ] " + ChatColor.GREEN + "Aqui vai o inventário dos itens do encantamento");
-            e.setCancelled(true);
-            ItemStack clickedItem = e.getCurrentItem();
-            Player p = (Player) e.getWhoClicked();
-            if (clickedItem != null) {
-                ConfigurationSection section = menus.getConfigurationSection("encantamentos.itens");
-                if (section != null) {
-                    for (String itemName : section.getKeys(false)) {
-                        Methods.verifyItens(clickedItem, p, section, itemName, "fortuna");
-                        Methods.verifyItens(clickedItem, p, section, itemName, "bonus");
-                        Methods.verifyItens(clickedItem, p, section, itemName, "multiplicador");
-                    }
-                }
-            }
-            else {
-                p.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("no-created-itens-inventory")));
-                p.closeInventory();
-            }
+        else {
+            return;
         }
     }
 
-
-    private void verifyItens(ItemStack clickedItem, Player p, ConfigurationSection section, String itemName, String util) throws SQLException, IOException, InvalidConfigurationException {
-         if (Objects.equals(itemName, util)) {
+    private void verifyEnchantsItens (String itemName, InventoryAction action, Player p) throws SQLException, IOException, InvalidConfigurationException {
+       CustomFileConfiguration menus = new CustomFileConfiguration("menus.yml", Main.getPlugin(Main.class));
+       CustomFileConfiguration rewards = new CustomFileConfiguration("recompensas.yml", Main.getPlugin(Main.class));
+       CustomFileConfiguration messages = new CustomFileConfiguration("messages.yml", Main.getPlugin(Main.class));
+        if (itemName == "fortuna") {
+            PlayerManager manager = MySqlUtils.getPlayer(p);
+            if (action == InventoryAction.PICKUP_ONE) {
+                if (Methods.getCostForEnchant("fortuna", p) >= manager.getSeeds()) {
+                    Methods.addEnchants("fortuna", p);
+                } else {
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("no-seeds")));
+                }
+            }
+        }
+        else if (itemName == "bonus") {
+            PlayerManager manager = MySqlUtils.getPlayer(p);
+            if (action == InventoryAction.PICKUP_ONE) {
+                if (Methods.getCostForEnchant("bonus", p) >= manager.getSeeds()) {
+                    Methods.addEnchants("bonus", p);
+                } else {
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("no-seeds")));
+                }
+            }
+        }
+        else if (itemName == "multiplicador") {
+            PlayerManager manager = MySqlUtils.getPlayer(p);
+            if (action == InventoryAction.PICKUP_ONE) {
+                if (Methods.getCostForEnchant("multiplicador", p) >= manager.getSeeds()) {
+                    Methods.addEnchants("multiplicador", p);
+                } else {
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("no-seeds")));
+                }
+            }
+        }
+    }
+    private void verifyItens (ItemStack clickedItem, Player p, ConfigurationSection section, String itemName, String util) throws SQLException, IOException, InvalidConfigurationException {
+        CustomFileConfiguration menus = new CustomFileConfiguration("menus.yml", Main.getPlugin(Main.class));
+        CustomFileConfiguration rewards = new CustomFileConfiguration("recompensas.yml", Main.getPlugin(Main.class));
+        CustomFileConfiguration messages = new CustomFileConfiguration("messages.yml", Main.getPlugin(Main.class));
+        if (Objects.equals(itemName, util)) {
             if (clickedItem.getType() == Material.getMaterial(section.getInt(itemName + ".id"))) {
                 if (section.getBoolean(itemName + ".require-permission")) {
                     if (p.hasPermission(section.getString(itemName + ".permission"))) {
-                        if(util.equalsIgnoreCase("recompensas")) {
+                        if (util.equalsIgnoreCase("recompensas")) {
                             new RewardsInventory(p);
-                        }
-                        else if(util.equalsIgnoreCase("areas")) {
+                        } else if (util.equalsIgnoreCase("areas")) {
                             new CreateHoe(MySqlUtils.getPlayer(p));
                             p.sendMessage(ChatColor.RED + "Você pegou a hoe");
                             p.closeInventory();
                         }
-                    }
-                    else {
+                    } else {
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("no-permission")));
                     }
-                }
-                else {
-                    if(util.equalsIgnoreCase("recompensas")) {
+                } else {
+                    if (util.equalsIgnoreCase("recompensas")) {
                         new RewardsInventory(p);
-                    }
-                    else if(util.equalsIgnoreCase("farm")) {
+                    } else if (util.equalsIgnoreCase("farm")) {
                         new CreateHoe(MySqlUtils.getPlayer(p));
                         p.sendMessage(ChatColor.RED + "Você pegou a hoe");
                         p.closeInventory();
@@ -115,3 +139,4 @@ public class onInventoryClick implements Listener {
         }
     }
 }
+

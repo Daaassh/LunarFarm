@@ -33,8 +33,12 @@ public final class Main extends JavaPlugin {
             getCommand("farm").setExecutor(new FarmCommand());
             getCommand("farmadm").setExecutor(new AdministratorCommands());
             Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.GREEN + "Comando /farm criado");
-            MySqlConnector.connect();
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.GREEN + "MySql conectado!");
+            try {
+                MySqlConnector.connect();
+                Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.GREEN + "MySql conectado!");
+            }catch (Exception e) {
+                Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.RED + "Erro ao conectar com o mysql, Verifique sua config.yml!");
+            }
             registerEvents();
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
@@ -47,6 +51,7 @@ public final class Main extends JavaPlugin {
         CustomFileConfiguration rewards = new CustomFileConfiguration("recompensas.yml", Main.getPlugin(Main.class));
         CustomFileConfiguration messages = new CustomFileConfiguration("messages.yml", Main.getPlugin(Main.class));
         CustomFileConfiguration menus = new CustomFileConfiguration("menus.yml", Main.getPlugin(Main.class));
+        CustomFileConfiguration farms = new CustomFileConfiguration("farms.yml", Main.getPlugin(Main.class));
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.GREEN + "Configs recarregadas");
     }

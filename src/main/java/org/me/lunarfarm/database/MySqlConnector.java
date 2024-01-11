@@ -40,7 +40,7 @@ public class MySqlConnector {
             if (!(tableExists("LunarFarm"))) {
                 try {
                     createTable();
-                    Bukkit.getConsoleSender().sendMessage(ChatColor.AQUA + "[ MySQL ] " + ChatColor.GREEN +" Tabelas criadas com sucesso");
+                    Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + "[ Lunar Farm ] " + ChatColor.GREEN +" Tabelas criadas com sucesso");
                 }catch (Exception e) {
                     Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[ MySQL ] Erro ao criar as tabelas");
                 }

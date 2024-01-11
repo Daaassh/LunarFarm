@@ -1,0 +1,9 @@
+farms:
+  # Sempre coloque a quantidade de coins e seeds
+  # E caso for criar uma nova seção, coloque o nome da material
+  WHEAT:
+    coins: 100
+    seeds: 2
+  CARROT:
+    coins: 200
+    seeds: 10

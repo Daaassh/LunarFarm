@@ -53,7 +53,7 @@ public class Methods {
     }
 
 
-    private static void addEnchants(String enchant, Player player) throws SQLException {
+    public static void addEnchants(String enchant, Player player) throws SQLException {
         PlayerManager manager = MySqlUtils.getPlayer(player);
         if (enchant.equalsIgnoreCase("fortuna")) {
             manager.setFortuna(manager.getFortuna() + 1);
@@ -64,7 +64,7 @@ public class Methods {
         }
     }
 
-    private static Integer getCostForEnchant(String enchant, Player player) throws SQLException {
+    public static Integer getCostForEnchant(String enchant, Player player) throws SQLException {
         PlayerManager manager = MySqlUtils.getPlayer(player);
         if (enchant.equalsIgnoreCase("fortuna")) {
             int i = config.getInt("fortuna.initial-cost");
@@ -79,6 +79,12 @@ public class Methods {
         return null;
     }
 
+    public static ItemStack getMaterial(ItemStack item, ConfigurationSection section, String itemName) {
+        if (item.getType() == Material.getMaterial(section.getInt(itemName + ".id"))) {
+            return item;
+        }
+        return null;
+    }
     public static void verifyItens(ItemStack clickedItem, Player p, ConfigurationSection section, String itemName, String util) throws SQLException, IOException, InvalidConfigurationException {
         PlayerManager manager = MySqlUtils.getPlayer(p);
         if (Objects.equals(itemName, util)) {

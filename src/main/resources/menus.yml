@@ -40,9 +40,9 @@ farm:
       permission: farmmenu_recompensas
 
 
-encantamentos:
+enchants:
   # Nome e tamanho do inventario
-  name: "§aEncantamentos | @player"
+  name: "&aEncantamentos"
   # Coloca os slots assim, Exemplo um inventario de 5 rows, 9 * 5
   slots: 27
   # Lembrando não troque os nomes das seções abaixo
