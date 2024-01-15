@@ -5,8 +5,10 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
+import static java.lang.String.format;
+
 public class PlayerManager {
-    private int seeds;
+    private long seeds;
     private int level;
     private int fortuna;
     private int multiplicador;
@@ -14,7 +16,7 @@ public class PlayerManager {
     private int blocks_break;
     private Player player;
 
-    public PlayerManager(int blocks_break,int seeds, int level, int fortuna, int multiplicador, int bonus, Player player) {
+    public PlayerManager(int blocks_break,long seeds, int level, int fortuna, int multiplicador, int bonus, Player player) {
         this.blocks_break = blocks_break;
         this.seeds = seeds;
         this.level = level;
@@ -32,11 +34,11 @@ public class PlayerManager {
         this.blocks_break = blocks_break;
     }
 
-    public int getSeeds() {
+    public long getSeeds() {
         return seeds;
     }
 
-    public void setSeeds(int seeds) {
+    public void setSeeds(long seeds) {
         this.seeds = seeds;
     }
 
@@ -75,5 +77,6 @@ public class PlayerManager {
     public Player getPlayer() {
         return player;
     }
+
 
 }

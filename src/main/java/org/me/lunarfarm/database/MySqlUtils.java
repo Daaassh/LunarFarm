@@ -30,7 +30,7 @@ public class MySqlUtils {
             PreparedStatement collection = connection.prepareStatement(query);
             collection.setString(1, String.valueOf(p.getUniqueId()));
             collection.setInt(2, 1);
-            collection.setInt(3, 1);
+            collection.setLong(3, 1L);
             collection.setInt(4, 1);
             collection.setInt(5, 1);
             collection.setInt(6, 1);
@@ -49,7 +49,7 @@ public class MySqlUtils {
         try {
             PreparedStatement collection = connection.prepareStatement(query);
             collection.setInt(1, manager.getBlocks_break());
-            collection.setInt(2, manager.getSeeds());
+            collection.setLong(2, manager.getSeeds());
             collection.setInt(3, manager.getLevel());
             collection.setInt(4, manager.getFortuna());
             collection.setInt(5, manager.getMultiplicador());
@@ -73,7 +73,7 @@ public class MySqlUtils {
             try (ResultSet results = statement.executeQuery()) {
                 if (results.next()) {
                     int blocks_break = results.getInt("blocks_break");
-                    int seeds = results.getInt("seeds");
+                    long seeds = results.getLong("seeds");
                     int level = results.getInt("level");
                     int fortuna = results.getInt("fortuna");
                     int multiplicador = results.getInt("multiplicador");

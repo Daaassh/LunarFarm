@@ -4,8 +4,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.me.lunarfarm.cache.PlayersInFarm;
 import org.me.lunarfarm.database.MySqlUtils;
-import org.me.lunarfarm.hoe.CreateHoe;
+import org.me.lunarfarm.managers.PlayerManager;
 
 public class onJoin implements Listener {
 
@@ -14,7 +15,9 @@ public class onJoin implements Listener {
         try {
             Player p = e.getPlayer();
             MySqlUtils.existPlayer(p);
-            new CreateHoe(MySqlUtils.getPlayer(p));
+            PlayerManager manager = MySqlUtils.getPlayer(p);
+            PlayersInFarm.cache.put(p.getUniqueId(), manager);
+
         }
         catch (Exception ex) {
             throw new RuntimeException(ex);

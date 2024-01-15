@@ -7,15 +7,10 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.me.lunarfarm.Main;
+import org.me.lunarfarm.cache.PlayersInFarm;
 import org.me.lunarfarm.configs.CustomFileConfiguration;
-import org.me.lunarfarm.database.MySqlUtils;
-import org.me.lunarfarm.hoe.CreateHoe;
-import org.me.lunarfarm.inventory.EnchantsInventory;
-import org.me.lunarfarm.inventory.RewardsInventory;
 import org.me.lunarfarm.managers.PlayerManager;
 
 import java.io.IOException;
@@ -24,11 +19,10 @@ import java.util.Objects;
 
 public class Methods {
     private static FileConfiguration config = Main.getPlugin(Main.class).getConfig();
-    private static  CustomFileConfiguration menus;
 
     static {
         try {
-            menus = new CustomFileConfiguration("menus.yml", Main.getPlugin(Main.class));
+            CustomFileConfiguration menus = new CustomFileConfiguration("menus.yml", Main.getPlugin(Main.class));
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InvalidConfigurationException e) {
@@ -54,7 +48,7 @@ public class Methods {
 
 
     public static void addEnchants(String enchant, Player player) throws SQLException {
-        PlayerManager manager = MySqlUtils.getPlayer(player);
+        PlayerManager manager = PlayersInFarm.cache.getIfPresent(player.getUniqueId());
         if (enchant.equalsIgnoreCase("fortuna")) {
             manager.setFortuna(manager.getFortuna() + 1);
         } else if (enchant.equalsIgnoreCase("bonus")) {
@@ -65,18 +59,19 @@ public class Methods {
     }
 
     public static Integer getCostForEnchant(String enchant, Player player) throws SQLException {
-        PlayerManager manager = MySqlUtils.getPlayer(player);
+        PlayerManager manager = PlayersInFarm.cache.getIfPresent(player.getUniqueId());
+        int i = 0;
         if (enchant.equalsIgnoreCase("fortuna")) {
-            int i = config.getInt("fortuna.initial-cost");
-            return i + manager.getFortuna();
+            i = config.getInt("fortune.initial-cost");
+            i = i + manager.getFortuna();
         } else if (enchant.equalsIgnoreCase("bonus")) {
-            int i = config.getInt("bonus.initial-cost");
-            return i + manager.getBonus();
+            i = config.getInt("bonus.initial-cost");
+            i = i + manager.getBonus();
         } else if (enchant.equalsIgnoreCase("multiplicador")) {
-            int i = config.getInt("multiplicador.initial-cost");
-            return i + manager.getMultiplicador();
+            i = config.getInt("multiplicador.initial-cost");
+            i = i + manager.getMultiplicador();
         }
-        return null;
+        return i;
     }
 
     public static ItemStack getMaterial(ItemStack item, ConfigurationSection section, String itemName) {
@@ -86,7 +81,7 @@ public class Methods {
         return null;
     }
     public static void verifyItens(ItemStack clickedItem, Player p, ConfigurationSection section, String itemName, String util) throws SQLException, IOException, InvalidConfigurationException {
-        PlayerManager manager = MySqlUtils.getPlayer(p);
+        PlayerManager manager = PlayersInFarm.cache.getIfPresent(p.getUniqueId());
         if (Objects.equals(itemName, util)) {
             if (clickedItem.getType() == Material.getMaterial(section.getInt(itemName + ".id"))) {
                 if (util.equalsIgnoreCase("fortuna")) {

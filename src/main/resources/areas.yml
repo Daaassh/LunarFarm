@@ -1,0 +1,28 @@
+areas:
+  inventory:
+    name: "&cAreas De Farm"
+    slots: 54
+  # Nome da area.
+  farm1:
+    # Inventario do /farm
+    inventory:
+      # Id do item
+      id: 20
+      # Nome do item
+      name: "&cArea De Trigo"
+      lore:
+        - "&cArea de farm de trigo"
+        - "&cBoto direitão para ir"
+      slot: 11
+      # Cordenadas da area
+      # Ira continuar vazia ate você setar alguma
+      # Para setar utilize /farmadm set <Nome do identificador que você colocou aqui, Como exemplo o farm1>!
+
+  farm2:
+    inventory:
+      id: 20
+      name: "&cArea De Carrot"
+      lore:
+        - "&cArea de farm de carrot"
+        - "&cBoto direitão para ir"
+      slot: 12

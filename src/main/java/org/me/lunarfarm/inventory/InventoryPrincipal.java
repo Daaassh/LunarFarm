@@ -36,7 +36,7 @@ public class InventoryPrincipal  {
         for (String sec : menus.getConfigurationSection("farm.itens").getKeys(false)) {
             ItemStack item = new ItemStack(Material.getMaterial(sections.getInt(sec + ".id")));
             ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(sections.getString(sec + ChatColor.translateAlternateColorCodes('&', sec + ".name")));
+            meta.setDisplayName(sections.getString(translateColors(sec + ".name")));
             meta.setLore(translateColors(sections.getStringList( sec + ".lore")));
             item.setItemMeta(meta);
             inventory.setItem(sections.getInt(sec + ".inventory-slot"), item);
@@ -48,6 +48,9 @@ public class InventoryPrincipal  {
             input.set(i, ChatColor.translateAlternateColorCodes('&', input.get(i)));
         }
         return input;
+    }
+    private String translateColors(String input) {
+        return ChatColor.translateAlternateColorCodes('&', input);
     }
 
 }

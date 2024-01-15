@@ -1,45 +1,50 @@
 rewards:
   # Configurações adicionais
   # Chance de enviar alguma recompensa
-  chance-initial: 50.0
+  chance-initial: 1.0
   # Itens de recompensas
   # Configurações do inventario.
   inventory:
-    name: "Recompensas"
+    name: "&aRecompensas"
     slots: 54
   itens:
     # O numero não ira interferir pode colocar ate algum nome, exemplo: 'Hoe'
     # Você so não pode colocar um item com o mesmo nome
     # Não esquece de deixar os numeros da recompensa com o id do item.
-    2:
-      name: "Hoe"
-      id: 2
+    Hoe:
+      name: "&aHoe"
+      id: 100
       # Chance de vir o item.
-      chance: 50.0
+      chance: 0.01
       lore:
         - "&a "
         - "&aChance: 50.0%"
         - "&aEle ira ser enviado para o /crates"
         - "&a "
       # Configurações do menu de recompensas
+
       inventory:
         # Tamanho do inventário e padrão 9*5
         # Slot em que o item vai ficar
         slot: 12
+      # Mensagem ao receber recompensa
+      message:
+        usage: true
+        msg: "&aRecompensa Recebida: &b@item"
       commands:
         # Caso tenha um valor true, o comando vai ser executado
-        usage: true
+        usage: false
         command: /hoe
-    1:
-      name: "Hoe2s"
-      id: 1
+    Diamante:
+      name: "&bRobos"
+      id: 102
       chance: 0.01
       lore:
         - "&a "
-        - "&aShift + direito para abrir o menu de encantamentos"
+        - "&aShift + direito para ativar o seu robo"
         - "&a "
       inventory:
         slot: 10
       commands:
-        usage: true
+        usage: false
         command: /hoe

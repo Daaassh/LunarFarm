@@ -1,22 +1,46 @@
 break_farms:
+  # Mundo onde esta seu mapa de farm, Esse world sera onde não sera permitido dropar nenhum item.
+  world: "mina"
+  # Tempo de atualização da ferramenta ao quebrar o bloco, E necessario colocar uma quantia de quantos blocos terao que ser quebrados ate atualizar, Caso o servidor seja reiniciado o valor sera resetado
+  # Esse tempo tambem, Ira funcionar pra os enchant multiplicador e fortuna.
+  blocks-to-update: 15
   # Recomendo deixar ativado, Na v2 ira vir os hologramas
   title-api: true
-  # Tempo em segundos para a plantação ser plantada novamente.
-  time-on-seconds-for-place-wheat: 2
 # O custo sera multiplicado pelo level
 fortune:
   initial-cost: 100
   max-level: 50
-  # Ira acrecentar 1.0% a cada nivel
-  increase-for-level: 1.0
+  on-level-up:
+    title: "&b&lFortuna"
+    subtitle: "Seu bonus aumentou para &b&l+1"
+    fadeIn: 10
+    stay: 10
+    fadeOut: 10
+
+  # Ira acrecentar 0.25% a cada nivel
+  increase-for-level: 0.25
+
 bonus:
   max-level: 10
   initial-cost: 250
+  on-level-up:
+    title: "&b&lBonus"
+    subtitle: "Seu bonus aumentou para &b&l+1"
+    fadeIn: 10
+    stay: 10
+    fadeOut: 10
+
   # Ira acrescentar a chance de 1.0 a cada level.
   increase-for-level: 1.0
 multiplicador:
   max-level: 25
   initial-cost: 500
+  on-level-up:
+    title: "&b&lMultiplicador"
+    subtitle: "Seu bonus aumentou para &b&l+1"
+    fadeIn: 10
+    stay: 10
+    fadeOut: 10
   # Ira acrescentar a chance de 1.0 a cada level.
   increase-for-level: 1.0
 

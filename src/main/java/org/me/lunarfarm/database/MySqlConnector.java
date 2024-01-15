@@ -62,7 +62,7 @@ public class MySqlConnector {
     }
 
     private static void createTable() throws SQLException {
-        String createTableQuery = "CREATE TABLE LunarFarm (UUID VARCHAR(255), blocks_break INT, seeds INT, level INT,fortuna INT, bonus INT,multiplicador INT)";
+        String createTableQuery = "CREATE TABLE LunarFarm (UUID VARCHAR(255), blocks_break INT, seeds LONG, level INT,fortuna INT, bonus INT,multiplicador INT)";
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(createTableQuery);
         }

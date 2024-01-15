@@ -18,12 +18,11 @@ public class PorcentageManager {
     }
 
     private boolean verificarPorcentagem(double valor) {
-        return valor > percentage;
+        return valor <= percentage;
     }
 
     private double gerarValorAleatorio() {
         Random random = new Random();
-        Bukkit.getConsoleSender().sendMessage("Porcentagem decidida pelo enchant manager: " + random.nextDouble() * (100 - 0.00001) + 0.00001 + "%");
         return random.nextDouble() * (100 - 0.00001) + 0.00001;
     }
 }

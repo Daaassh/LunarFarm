@@ -11,6 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.me.lunarfarm.Main;
+import org.me.lunarfarm.cache.PlayersInFarm;
 import org.me.lunarfarm.configs.CustomFileConfiguration;
 import org.me.lunarfarm.database.MySqlUtils;
 import org.me.lunarfarm.managers.PlayerManager;
@@ -20,16 +21,16 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class EnchantsInventory {
-    private Player player;
-    private CustomFileConfiguration menus = new CustomFileConfiguration("menus.yml", Main.getPlugin(Main.class));
-    private FileConfiguration config = Main.getPlugin(Main.class).getConfig();
+    private final Player player;
+    private final CustomFileConfiguration menus = new CustomFileConfiguration("menus.yml", Main.getPlugin(Main.class));
+    private final FileConfiguration config = Main.getPlugin(Main.class).getConfig();
 
     public EnchantsInventory(Player player) throws IOException, InvalidConfigurationException, SQLException {
         this.player = player;
         createInventory();
     }
     private void createInventory() throws SQLException {
-        Inventory inventory = Bukkit.createInventory(null, menus.getInt("enchants.slots"), menus.getString("enchants.name"));
+        Inventory inventory = Bukkit.createInventory(null, menus.getInt("enchants.slots"), ChatColor.translateAlternateColorCodes('&', menus.getString("enchants.name")));
         setItems(inventory);
     }
     private void setItems(Inventory inventory) throws SQLException {
@@ -53,13 +54,15 @@ public class EnchantsInventory {
         player.openInventory(inventory);
     }
     private List<String> translateColors(List<String> input){
-        for (int i = 0; i < input.size(); i++) {
-            input.set(i, ChatColor.translateAlternateColorCodes('&', input.get(i)));
-        }
+        input.replaceAll(textToTranslate -> ChatColor.translateAlternateColorCodes('&', textToTranslate));
         return input;
     }
     private Integer getEnchant(String enchant, Player p) throws SQLException {
-        PlayerManager manager = MySqlUtils.getPlayer(p);
+        PlayerManager manager = PlayersInFarm.cache.getIfPresent(p.getUniqueId());
+        if (manager == null) {
+            PlayersInFarm.cache.put(p.getUniqueId(), MySqlUtils.getPlayer(p));
+            return null;
+        }
         if (enchant.equalsIgnoreCase("fortuna")) {
             return manager.getFortuna();
         }

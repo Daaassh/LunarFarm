@@ -7,5 +7,12 @@ no-section-configurate: "§cNão foi configurado nenhuma seção"
 msg-on-reload-config: "&aConfigurado recaregada sucesso!"
 args-error: "§cArgumentos invalidos"
 no-seeds: "&cVocê não tem a quantia de sementes necessarias"
+no-drop-item: "&cNão pode ser dropado"
+player-in-farm: "&cO jogador está em uma plantação"
+rewards-msg: "&aRecompensa ganha: @item"
+correct-send-player-to-area: "&aEnviado para a area correta"
+error-to-set-hoe-on-break: "&cFalha ao setar a on break_blocks na hoe"
+error-to-send-player-to-area: "&cFalha ao enviar o jogador para a area"
+
 # Apenas funciona aqui. o @sementes
 message-on-break-block: "&aVocê quebrou uma plantação e agora esta com uma quantia de &b@sementes sementes. &aParabens!"

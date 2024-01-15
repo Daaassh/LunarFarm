@@ -15,10 +15,9 @@ public class onInteract implements Listener {
     @EventHandler
     public void onInteractPlayer(PlayerInteractEvent event) throws SQLException, IOException, InvalidConfigurationException {
         Player p = event.getPlayer();
-            event.setCancelled(true);
-            if (p.getItemInHand().getType() == Material.WOOD_HOE) {
-                if (p.isSneaking()) {
-                    if (event.getAction() == Action.RIGHT_CLICK_AIR) {
+        if (p.getItemInHand().getType() == Material.WOOD_HOE) {
+            if (p.isSneaking()) {
+                if (event.getAction() == Action.RIGHT_CLICK_AIR) {
                         new EnchantsInventory(p);
                     }
                 }
