@@ -1,10 +1,17 @@
 break_farms:
   # Mundo onde esta seu mapa de farm, Esse world sera onde não sera permitido dropar nenhum item.
+  # Caso o hologram e o title-api estejam desativadoo nada ira ser exibido
   world: "mina"
   # Tempo de atualização da ferramenta ao quebrar o bloco, E necessario colocar uma quantia de quantos blocos terao que ser quebrados ate atualizar, Caso o servidor seja reiniciado o valor sera resetado
   # Esse tempo tambem, Ira funcionar pra os enchant multiplicador e fortuna.
-  blocks-to-update: 15
-  # Recomendo deixar ativado, Na v2 ira vir os hologramas
+  # cada 1 e 1 segundo.
+  update-acount: 60
+  # Quantas vezes os dados ira fazer a atualização dos jogadores.
+  period: 999
+  hologram-y: 1.2
+  hologram-speed: 1L
+  # Recomendo deixar ativado, Você pode deixar os 2 ativos.
+  hologram: true
   title-api: true
 # O custo sera multiplicado pelo level
 fortune:
@@ -43,7 +50,8 @@ multiplicador:
     fadeOut: 10
   # Ira acrescentar a chance de 1.0 a cada level.
   increase-for-level: 1.0
-
+meteor:
+  y: -5.0
 
 mysql:
   # Importantes

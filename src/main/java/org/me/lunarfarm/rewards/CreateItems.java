@@ -23,6 +23,8 @@ import java.util.List;
 public class CreateItems {
     private final Player player;
     private final TitleAPI api = new TitleAPI();
+    private ConfigurationSection sections;
+    private String itemNaming;
 
     public CreateItems(Player player) throws IOException, InvalidConfigurationException, SQLException {
         this.player = player;
@@ -38,12 +40,12 @@ public class CreateItems {
         ConfigurationSection section = config.getConfigurationSection(sectionName);
         if (section != null) {
             for (String itemName : section.getKeys(false)) {
-                double chance = section.getDouble(itemName + ".chance") +  new BonusEnchant(managers).setup();
+                double chance = section.getDouble(itemName + ".chance") + new BonusEnchant(managers).setup();
                 PorcentageManager manager = new PorcentageManager(chance);
 
                 if (manager.setup()) {
                     createItemFromConfig(section, itemName);
-                    api.sendFullTitle(player, 1,1,2,ChatColor.YELLOW + "Recompensas", "Você recebeu uma recompensa");
+                    api.sendFullTitle(player, 1, 1, 2, ChatColor.YELLOW + "Recompensas", "Você recebeu uma recompensa");
                 }
             }
         }
@@ -51,6 +53,8 @@ public class CreateItems {
 
     private void createItemFromConfig(ConfigurationSection section, String itemName) {
         Material material = Material.getMaterial(section.getInt(itemName + ".id"));
+        sections = section;
+        itemNaming = itemName;
         if (!(material == null)) {
             ItemStack item = new ItemStack(material);
             ItemMeta meta = item.getItemMeta();
@@ -78,11 +82,11 @@ public class CreateItems {
         }
     }
 
-    private String translateColors(String input) {
+    private String translateColors (String input){
         return ChatColor.translateAlternateColorCodes('&', input);
     }
 
-    private List<String> translateColors(List<String> input) {
+    private List<String> translateColors (List < String > input) {
         input.replaceAll(textToTranslate -> ChatColor.translateAlternateColorCodes('&', textToTranslate));
         return input;
     }

@@ -32,19 +32,13 @@ public class AdministratorCommands implements CommandExecutor {
             }
             if (args[0].equalsIgnoreCase("reload")) {
                 try {
-                    hoe.save();
-                    hoe.reload();
-                    rewards.save();
-                    rewards.reload();
-                    messages.save();
-                    messages.reload();
-                    menus.save();
-                    menus.reload();
-                    farms.save();
-                    farms.reload();
-                    areas.save();
-                    areas.reload();
                     Main.getPlugin(Main.class).reloadConfig();
+                    hoe.reload();
+                    rewards.reload();
+                    messages.reload();
+                    menus.reload();
+                    farms.reload();
+                    areas.reload();
                     commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', messages.getString("msg-on-reload-config")));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -53,6 +47,9 @@ public class AdministratorCommands implements CommandExecutor {
             if (args[0].equalsIgnoreCase("set")) {
                 String identifier = args[1];
                 setLocations(identifier, (Player) commandSender);
+            }
+            if (args[0].equalsIgnoreCase("setspawn")) {
+                setSpawn((Player) commandSender);
             }
             return true;
         }
@@ -75,5 +72,17 @@ public class AdministratorCommands implements CommandExecutor {
             areas.save();
             player.sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.GREEN + " Localização salva com sucesso, Identificador: " + identifier);
         }
+    }
+    private void setSpawn(Player player) {
+        FileConfiguration config = Main.getPlugin(Main.class).getConfig();
+        config.set("spawn.location.x", player.getLocation().getX());
+        config.set("sṕawn.location.y", player.getLocation().getY());
+        config.set("spawn.location.z", player.getLocation().getZ());
+        config.set("spawn.location.yaw", player.getLocation().getYaw());
+        config.set("spawn.location.pitch", player.getLocation().getPitch());
+        config.set("spawn.location.world", player.getLocation().getWorld().getName());
+        Main.getPlugin(Main.class).saveConfig();
+        Main.getPlugin(Main.class).reloadConfig();
+        player.sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.GREEN + " Localização salva com sucesso");
     }
 }

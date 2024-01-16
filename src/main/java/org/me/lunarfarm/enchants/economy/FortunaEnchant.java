@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.me.lunarfarm.Main;
+import org.me.lunarfarm.cache.PlayersInFarm;
 import org.me.lunarfarm.configs.CustomFileConfiguration;
 import org.me.lunarfarm.managers.PlayerManager;
 import java.io.IOException;
@@ -29,6 +30,8 @@ public class FortunaEnchant {
                 double coin = coins + farms.getDouble("farms." + sec.toUpperCase() + ".coins");
                 manager.setSeeds(manager.getSeeds() + farms.getInt("farms." + sec + ".seeds"));
                 manager.getPlayer().sendMessage("Coins ao quebrar: " + coin);
+                PlayersInFarm.cache.invalidate(manager.getPlayer().getUniqueId());
+                PlayersInFarm.cache.put(manager.getPlayer().getUniqueId(), manager);
             }
         }
     }

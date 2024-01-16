@@ -11,6 +11,7 @@ import org.me.lunarfarm.database.MySqlConnector;
 import org.me.lunarfarm.events.*;
 import org.me.lunarfarm.events.inventorys.Areas;
 import org.me.lunarfarm.events.inventorys.Enchants;
+import org.me.lunarfarm.methods.TaskForUpdatePlayers;
 
 import java.io.IOException;
 
@@ -29,6 +30,16 @@ public final class Main extends JavaPlugin {
 
             saveDefaultConfig();
             loadConfigs();
+            if (!Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
+                getLogger().severe("*** ProtocolLib is not installed or not enabled. ***");
+                getLogger().severe("*** This plugin will be disabled. ***");
+                this.setEnabled(false);
+                return;
+            }
+            else {
+                Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.GREEN + "ProtocolLib encontrado. Carregando...");
+            }
+
             try {
                 getCommand("farm").setExecutor(new FarmCommand());
                 getCommand("farmadm").setExecutor(new AdministratorCommands());
@@ -50,6 +61,7 @@ public final class Main extends JavaPlugin {
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
+        TaskForUpdatePlayers.runTask();
         Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.GREEN + "Plugin carregado");
     }
 
@@ -72,6 +84,7 @@ public final class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new onInventoryClick(), this);
         Bukkit.getPluginManager().registerEvents(new onInteract(), this);
         Bukkit.getPluginManager().registerEvents(new Areas(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerInteractEntity(), this);
         Bukkit.getConsoleSender().sendMessage(ChatColor.GRAY + " [ Lunar Farm ] " + ChatColor.GREEN + "Eventos registrados");
     }
 }
